@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { moviesService } from '../services/movies.service';
 import { MovieCard } from '../components/MovieCard';
+import { MovieDetailsModal } from '../components/MovieDetailsModal';
 import toast from 'react-hot-toast';
 
 export const Home = () => {
@@ -8,6 +9,7 @@ export const Home = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGenre, setSelectedGenre] = useState('');
+  const [selectedMovie, setSelectedMovie] = useState(null);
 
   const fetchMovies = async () => {
     setLoading(true);
@@ -96,10 +98,20 @@ export const Home = () => {
                 key={movie.id}
                 movie={movie}
                 onRentSuccess={fetchMovies}
+                onViewDetails={setSelectedMovie}
               />
             ))}
           </div>
         </>
+      )}
+
+      {/* Modal de detalles */}
+      {selectedMovie && (
+        <MovieDetailsModal
+          movie={selectedMovie}
+          onClose={() => setSelectedMovie(null)}
+          onRentSuccess={fetchMovies}
+        />
       )}
     </div>
   );

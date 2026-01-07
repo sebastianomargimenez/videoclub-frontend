@@ -16,15 +16,20 @@ Este frontend consume la API REST disponible en:
 ## ✨ Características
 
 - **Autenticación completa**: Login, registro y gestión de sesiones con JWT
-- **Catálogo de películas**: Listado con búsqueda y filtros por género
+- **Catálogo de películas con imágenes**:
+  - Pósters de películas con efecto hover
+  - Búsqueda en tiempo real por título
+  - Filtros dinámicos por género
+  - Vista detallada en modal con toda la información
 - **Sistema de alquileres**:
   - Alquilar películas con límite de 3 activas por usuario
   - Devolver películas
-  - Ver historial de alquileres
+  - Ver historial de alquileres activos
 - **Panel de administración** (solo admins):
-  - CRUD completo de películas
-  - Gestión de stock
-  - Precios de alquiler
+  - CRUD completo de películas con formularios avanzados
+  - Gestión de pósters, descripción, director, año, duración
+  - Gestión de stock y precios
+  - Vista de tabla con miniaturas
 - **UI moderna y responsive**: Diseño adaptable a móviles, tablets y desktop
 - **Notificaciones toast**: Feedback visual para todas las acciones
 - **Control de roles**: Rutas protegidas según autenticación y permisos
@@ -366,6 +371,38 @@ VITE_API_URL=https://videoclub-api.onrender.com/api/v1
 1. Verificar que `index.css` importe Tailwind
 2. Ejecutar `npm run dev` de nuevo
 3. Limpiar caché del navegador
+
+## 🔐 Acceso al Panel de Administración
+
+### ¿Cómo ser Administrador?
+
+Por defecto, los usuarios se registran con rol `user`. Para acceder al panel de administración:
+
+1. **Regístrate en la aplicación** normalmente
+2. **Accede a Supabase** (backend)
+   - Ve a Table Editor → tabla `perfiles`
+   - Busca tu usuario por email
+   - Cambia el campo `role` de `'user'` a `'admin'`
+3. **Refresca la aplicación** y verás:
+   - Badge "Admin" en el navbar
+   - Opción "Administración" en el menú
+
+**📖 Guía completa**: Ver [ADMIN_ACCESS.md](./ADMIN_ACCESS.md) para instrucciones detalladas.
+
+### Funcionalidades del Panel Admin
+
+- ✅ Crear películas con toda la información (póster, descripción, director, etc.)
+- ✅ Editar cualquier película existente
+- ✅ Eliminar películas
+- ✅ Gestionar stock y precios
+- ✅ Vista de tabla con miniaturas de pósters
+
+### URLs de Pósters Sugeridas
+
+Para agregar imágenes de películas:
+- **The Movie Database**: https://www.themoviedb.org/ (gratis, sin cuenta)
+- **IMDb**: https://www.imdb.com/
+- **Imgur**: https://imgur.com (para subir tus propias imágenes)
 
 ## 📝 Próximas Mejoras
 

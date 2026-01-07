@@ -127,10 +127,10 @@ export const Admin = () => {
               <thead className="bg-gray-50">
                 <tr>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Título
+                    Película
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Género
+                    Detalles
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Stock
@@ -146,11 +146,31 @@ export const Admin = () => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {movies.map((movie) => (
                   <tr key={movie.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-gray-900">{movie.titulo}</div>
+                    <td className="px-6 py-4">
+                      <div className="flex items-center">
+                        <div className="h-16 w-12 flex-shrink-0 mr-4">
+                          <img
+                            src={movie.poster_url || 'https://via.placeholder.com/100x150/0ea5e9/ffffff?text=Sin+Imagen'}
+                            alt={movie.titulo}
+                            className="h-full w-full object-cover rounded shadow-sm"
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/100x150/0ea5e9/ffffff?text=Sin+Imagen';
+                            }}
+                          />
+                        </div>
+                        <div>
+                          <div className="text-sm font-bold text-gray-900">{movie.titulo}</div>
+                          {movie.anio && (
+                            <div className="text-xs text-gray-500">({movie.anio})</div>
+                          )}
+                        </div>
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4">
                       <div className="text-sm text-gray-600">{movie.genero}</div>
+                      {movie.director && (
+                        <div className="text-xs text-gray-500">{movie.director}</div>
+                      )}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`badge ${movie.stock_disponible > 0 ? 'badge-success' : 'badge-danger'}`}>
