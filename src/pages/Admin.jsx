@@ -148,15 +148,19 @@ export const Admin = () => {
                   <tr key={movie.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div className="flex items-center">
-                        <div className="h-16 w-12 flex-shrink-0 mr-4">
-                          <img
-                            src={movie.poster_url || 'https://via.placeholder.com/100x150/0ea5e9/ffffff?text=Sin+Imagen'}
-                            alt={movie.titulo}
-                            className="h-full w-full object-cover rounded shadow-sm"
-                            onError={(e) => {
-                              e.target.src = 'https://via.placeholder.com/100x150/0ea5e9/ffffff?text=Sin+Imagen';
-                            }}
-                          />
+                        <div className="h-16 w-12 flex-shrink-0 mr-4 bg-gradient-to-br from-primary-500 to-primary-700 rounded shadow-sm flex items-center justify-center overflow-hidden">
+                          {movie.poster_url ? (
+                            <img
+                              src={movie.poster_url}
+                              alt={movie.titulo}
+                              className="h-full w-full object-cover"
+                              onError={(e) => {
+                                e.target.style.display = 'none';
+                                e.target.nextElementSibling.style.display = 'flex';
+                              }}
+                            />
+                          ) : null}
+                          <span className={`text-3xl ${movie.poster_url ? 'hidden' : ''}`}>🎬</span>
                         </div>
                         <div>
                           <div className="text-sm font-bold text-gray-900">{movie.titulo}</div>

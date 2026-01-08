@@ -29,24 +29,27 @@ export const MovieCard = ({ movie, onRentSuccess, onViewDetails }) => {
   };
 
   const isAvailable = movie.stock_disponible > 0;
-
-  const defaultPoster = 'https://via.placeholder.com/300x450/0ea5e9/ffffff?text=Sin+Imagen';
+  const [imageError, setImageError] = useState(false);
 
   return (
     <div className="card hover:shadow-xl transition-all duration-200 overflow-hidden p-0">
       {/* Póster de la película */}
       <div
-        className="relative h-64 bg-gray-200 cursor-pointer group"
+        className="relative h-64 bg-gradient-to-br from-primary-500 to-primary-700 cursor-pointer group"
         onClick={() => onViewDetails && onViewDetails(movie)}
       >
-        <img
-          src={movie.poster_url || defaultPoster}
-          alt={movie.titulo}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-          onError={(e) => {
-            e.target.src = defaultPoster;
-          }}
-        />
+        {movie.poster_url && !imageError ? (
+          <img
+            src={movie.poster_url}
+            alt={movie.titulo}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <span className="text-8xl">🎬</span>
+          </div>
+        )}
         <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200 flex items-center justify-center">
           <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-primary-600 px-4 py-2 rounded-lg font-medium">
             Ver detalles

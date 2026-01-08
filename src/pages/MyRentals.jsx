@@ -6,14 +6,21 @@ export const MyRentals = () => {
   const [rentals, setRentals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [returning, setReturning] = useState({});
+  const [error, setError] = useState(null);
 
   const fetchRentals = async () => {
     setLoading(true);
+    setError(null);
     try {
       const response = await rentalsService.getActiveRentals();
-      setRentals(response.data);
+      console.log('Respuesta de alquileres:', response);
+      setRentals(response.data || []);
     } catch (error) {
-      toast.error('Error al cargar los alquileres');
+      console.error('Error al cargar alquileres:', error);
+      const message = error.response?.data?.message || error.message || 'Error al cargar los alquileres';
+      setError(message);
+      toast.error(message);
+      setRentals([]);
     } finally {
       setLoading(false);
     }
@@ -72,6 +79,16 @@ export const MyRentals = () => {
         <div className="text-center py-12">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
           <p className="mt-4 text-gray-600">Cargando alquileres...</p>
+          <p className="mt-2 text-xs text-gray-500">Si el backend está en Render (plan gratuito), puede tardar hasta 60 segundos</p>
+        </div>
+      ) : error ? (
+        <div className="card text-center py-12">
+          <span className="text-6xl mb-4 block">⚠️</span>
+          <p className="text-xl text-red-600 mb-2">Error al cargar los alquileres</p>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button onClick={fetchRentals} className="btn-primary">
+            Reintentar
+          </button>
         </div>
       ) : rentals.length === 0 ? (
         <div className="card text-center py-12">
@@ -86,11 +103,11 @@ export const MyRentals = () => {
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">
-                    {rental.pelicula.titulo}
+                    {rental.pelicula?.titulo || 'Sin título'}
                   </h3>
                   <div className="space-y-1 text-sm text-gray-600">
                     <p>
-                      <span className="font-medium">Género:</span> {rental.pelicula.genero}
+                      <span className="font-medium">Género:</span> {rental.pelicula?.genero || 'N/A'}
                     </p>
                     <p>
                       <span className="font-medium">Fecha de alquiler:</span>{' '}
@@ -99,13 +116,13 @@ export const MyRentals = () => {
                     <p>
                       <span className="font-medium">Precio:</span>{' '}
                       <span className="text-primary-600 font-semibold">
-                        ${rental.pelicula.precio_alquiler}
+                        ${rental.pelicula?.precio_alquiler || '0.00'}
                       </span>
                     </p>
                   </div>
                 </div>
                 <button
-                  onClick={() => handleReturn(rental.id, rental.pelicula.titulo)}
+                  onClick={() => handleReturn(rental.id, rental.pelicula?.titulo || 'película')}
                   disabled={returning[rental.id]}
                   className="btn-primary"
                 >

@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 export const MovieDetailsModal = ({ movie, onClose, onRentSuccess }) => {
   const { isAuthenticated } = useAuth();
   const [renting, setRenting] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   if (!movie) return null;
 
@@ -32,7 +33,6 @@ export const MovieDetailsModal = ({ movie, onClose, onRentSuccess }) => {
   };
 
   const isAvailable = movie.stock_disponible > 0;
-  const defaultPoster = 'https://via.placeholder.com/400x600/0ea5e9/ffffff?text=Sin+Imagen';
 
   return (
     <div
@@ -45,15 +45,17 @@ export const MovieDetailsModal = ({ movie, onClose, onRentSuccess }) => {
       >
         <div className="md:flex">
           {/* Póster */}
-          <div className="md:w-1/3 bg-gray-200">
-            <img
-              src={movie.poster_url || defaultPoster}
-              alt={movie.titulo}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.target.src = defaultPoster;
-              }}
-            />
+          <div className="md:w-1/3 bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
+            {movie.poster_url && !imageError ? (
+              <img
+                src={movie.poster_url}
+                alt={movie.titulo}
+                className="w-full h-full object-cover"
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <span className="text-9xl">🎬</span>
+            )}
           </div>
 
           {/* Detalles */}
