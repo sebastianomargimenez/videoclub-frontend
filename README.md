@@ -7,6 +7,10 @@
 
 Frontend moderno para sistema de gestión de videoclub, construido con React, Vite y Tailwind CSS.
 
+## 🌐 Demo en Vivo
+
+**Ver aplicación**: [https://sebastianomargimenez.github.io/videoclub-frontend/](https://sebastianomargimenez.github.io/videoclub-frontend/)
+
 ## 🔗 Backend API
 
 Este frontend consume la API REST disponible en:
